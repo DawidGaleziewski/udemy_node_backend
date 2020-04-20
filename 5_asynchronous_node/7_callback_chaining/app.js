@@ -1,17 +1,20 @@
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
-// We put a callback inside a callback
-geocode('Boston', (error, geocodeData) => {
+geocode(process.argv[2], (error, geocodeData) => {
+
+    if(!process.argv[2]){
+        return console.log('No value provided!')
+    }
 
     if(error){
-        // we can use return to break the function instead of using else
         return console.log(error);
     } 
 
-    forecast(data.latitude, data.longitude, (error, forecastData) => {
+    forecast(geocodeData.latitude, geocodeData.longitude, (error, forecastData) => {
         console.log('Error', error)
-        console.log('Data', forecastData)
+        console.log('Data', forecastData, geocodeData)
     });  
 });
 
+// console.log(process.argv)
