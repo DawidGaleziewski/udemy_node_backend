@@ -1,16 +1,10 @@
 const request = require('request');
 const chalk = require('chalk');
 
-// We can modify our url by adding query strings to it.
-// example loremipsumurl?key=value&key2=value - ? is added ob beggining of query string, format is key value and we can chain those by adding &
-const url =
+const weatherUrl =
   'https://api.darksky.net/forecast/5e4e0b6a607496db43372935985bf2cb/37.8267,-122.4233?units=si&exclude=minutely&lang=pl';
 
-//   We can seet the module to parse json for us
-request({ url: url, json: true }, (error, response) => {
-  //   const data = JSON.parse(response.body);
-  //   console.log(data);
-  //   console.log(response.body.currently);
+request({ url: weatherUrl, json: true }, (error, response) => {
   const {
     body: {
       currently: { temperature },
@@ -26,4 +20,17 @@ request({ url: url, json: true }, (error, response) => {
     there is a ${chalk.green.bold(precipProbability + '%')} probability of rain
   `
   );
+});
+
+const geocodingUrl =
+  'https://api.mapbox.com/geocoding/v5/mapbox.places/warsaw.json?access_token=pk.eyJ1IjoiZGF3aWRnYWxlemlld3NraWRldiIsImEiOiJjazQ2dnF5ajEwa2t0M25sOXZ4ODl5ZTJiIn0.eaNk4FvwS1Ewagc9b7Tx4w&limit=1';
+
+request({ url: geocodingUrl, json: true }, (error, response) => {
+  const {
+    body: { features }
+  } = response;
+
+  const [longitude, latidude] = features[0].center;
+
+  console.log(latidude, longitude);
 });
