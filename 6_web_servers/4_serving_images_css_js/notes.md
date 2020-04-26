@@ -1,0 +1,1 @@
+if we set absolute path in html files to "/" it will be the root. It wont be the root of the machine however but the web server, that is public folder

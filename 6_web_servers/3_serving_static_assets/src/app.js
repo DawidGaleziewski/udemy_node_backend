@@ -14,6 +14,7 @@ console.log(path.join(__dirname, '../public')) // first arg is the path and seco
 const publicDirectory = path.join(__dirname, '../public');
 
 // app.use is a method that helps us customize our server
+// This will be explained in greater details in future lessons
 app.use(express.static(publicDirectory));
 
 // due to fact that we named our html index.html and for webserver this will automatically load on root (app.com/ === app.com/index.html) we can remove the code below
@@ -21,16 +22,14 @@ app.use(express.static(publicDirectory));
 //     res.send('<h1>HELLO</h1>');
 // });
 
-app.get('/help', (req, res)=> {
-    res.send({
-        name: 'Dave',
-        age: 30
-    });
-});
+// we can remove those routes as we can access the html document by simply /about.html
+// app.get('/help', (req, res)=> {
+//     res.sendFile(path.join(publicDirectory, "help.html"))
+// });
 
-app.get('/about', (req, res) => {
-    res.send('<h1>about this page</h1>')
-});
+// app.get('/about', (req, res) => {
+//     res.sendFile(path.join(publicDirectory, "about.html"))
+// });
 
 app.get('/weather', (req,res) => {
     res.send({
