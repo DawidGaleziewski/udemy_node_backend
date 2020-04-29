@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-// in order to configure hbs we need to first load it
+
 const hbs = require('hbs');
 
 const publicDirectory = path.join(__dirname, '../public');
@@ -12,16 +12,11 @@ console.log(hbs.partials)
 app.set('view engine','hbs');
 app.set('views', viewsPath);
 
-// we need to point hbs where partials will be stored
 hbs.registerPartials(partialsPath);
 
 // Setup static directory to server
 app.use(express.static(publicDirectory));
 
-
-// To load a partial in html document {{>header}} #see help
-// we also need to change the way we load nodemon to watch over hbs files:
-// nodemoon filepath -e js, hbs
 
 // Routes
 app.get('', (req, res) => {
@@ -50,6 +45,23 @@ app.get('/weather', (req,res) => {
         location: 'Warsaw',
         temp: 34
     });
+})
+
+// We can use wildcard for a url that starts with help to have better error control
+app.get('/help/*', (req,res)=> {
+    res.render('404', {
+        pageName: 'help',
+        errorMsg: 'page in help section not found'
+    })
+})
+
+// this will have to be always last. We use wildcard and this will simply match anything that was not matched before.
+// It needs to be at the end as it will go thru all paths and finally stop at this one if nothing else was matched
+app.get('*', (req, res)=> {
+    res.render('404', {
+        pageName: 'Unknown page',
+        errorMsg: 'Unknown page'
+    })
 })
 
 app.listen(3000, () => {
