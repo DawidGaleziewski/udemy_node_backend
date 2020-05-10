@@ -1,0 +1,19 @@
+.main-header {
+    background-color: black;
+    color: #fff;
+    margin: 0;
+    padding: 2rem;
+}
+
+.menu-list {
+    display: flex;
+}
+
+.menu-list li {
+    margin-right: 2rem;
+}
+
+.menu-list a {
+    color: blanchedalmond;
+    text-transform: uppercase;
+}
