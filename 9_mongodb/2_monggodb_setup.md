@@ -15,6 +15,9 @@ mongodb-data
 
 /c/Users/dgaleziewski/mongodb/bin/mongod.exe --dbpath=/c/Users/dgaleziewski/mongodb-data/
 
+ ./mongod.exe --dbpath=/C:/Users/m14/mongodb-data
+
+
 We specify where mongod should store data
 
 # installing mongo db admin tool gui - robo 3t
