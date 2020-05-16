@@ -16,6 +16,7 @@ mongodb-data
 /c/Users/dgaleziewski/mongodb/bin/mongod.exe --dbpath=/c/Users/dgaleziewski/mongodb-data/
 
  ./mongod.exe --dbpath=/C:/Users/m14/mongodb-data
+C:/Users/m14/mongodb/bin/mongod.exe --dbpath=/C:/Users/m14/mongodb-data
 
 
 We specify where mongod should store data
