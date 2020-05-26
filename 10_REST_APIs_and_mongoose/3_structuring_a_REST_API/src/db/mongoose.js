@@ -30,9 +30,6 @@ const User = mongoose.model('User', {
         required: true,
         minlength: 7,
         validate(value){
-            // if(value.length < 6 ){
-            //     throw new Error('Password is to short!')
-            // }
             if(value.toLowerCase().includes('password')){
                 throw new Error('Please do not use keyword "password" in your password. You derp')
             }
@@ -41,8 +38,6 @@ const User = mongoose.model('User', {
     age: {
         type: Number,
         default: 0,
-        // Mongoose gives us only few validators but lets us set up our own custome validators
-        // It is best to use existing, well tested validators like npm validator
         validate(value){
             if(value < 0){
                 throw new Error('Age must be a positive number')
@@ -77,7 +72,6 @@ me.save().then((response)=>{
 
 const task = new Task({
     description: '        play divinity         ',
-    // complete: false
 });
 
 task.save().then(response=> {
