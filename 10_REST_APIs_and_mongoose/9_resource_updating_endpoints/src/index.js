@@ -48,6 +48,41 @@ app.get('/users/:id', async (req, res) => {
 
 })
 
+app.patch('/users/:id', async (req,res) => {
+    const _id = req.params.id;
+
+    // Testing for allowed values
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['name', 'email', 'password', 'age'];
+    const isValidOperation = updates.every((update) => {
+        return allowedUpdates.includes(update);
+    })
+
+    if(!isValidOperation){
+        return res.status(400).send({"error":"Invalid operation!"})
+    }
+
+    try {
+        // Update data for user weill be in the body
+        // 3rd param is settings
+        const user = await User.findByIdAndUpdate(_id, req.body, {
+            new: true, //returns newly updated user
+            runValidators: true // run existing validators
+        });
+
+        // Handle the scenario where user for update could not be found
+        if(!user){
+            return res.status(404).send()
+        }
+
+        res.status(200).send(user);
+
+    } catch (error) {
+        //  We can have server issues or validation issues here
+        res.status(400).send(error)
+    }
+})
+
 // TASKS CRUD
 app.post('/tasks', async (req, res) => {
     const task = new Task(req.body);
@@ -80,8 +115,29 @@ app.get('/tasks/:id', async (req, res) => {
     }
 })
 
+app.patch('/tasks/:id', async(req, res) => {
+    const _id = req.params.id;
+    const updateKeys = Object.keys(req.body);
+    const validUpdates = ["complete", "description"];
+    const isUpdateValid = updateKeys.every(update =>{
+        return validUpdates.includes(update)
+    } );
+
+    if(!isUpdateValid){
+        return res.status(400).send({"error" : "One or more of updated files is invalid"})
+    }
+
+    try {
+        const task = await Task.findByIdAndUpdate(_id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        res.status(200).send(task)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
 app.listen(port, ()=> {
     console.log('Server is up on port ' + port);
 });
-
-// Async/await works same as promises. It is simply a diffrent syntax
