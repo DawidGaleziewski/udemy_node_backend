@@ -28,6 +28,37 @@ router.post('/users/login', async(req,res) => {
     }
 })
 
+// We add auth middleware as you need to be authenticated to log out
+// we also want to have access to the token, so we want to make changes in auth.js middleware
+router.post('/users/logout', auth, async(req,res) => {
+    try {
+
+        // this will wipe out only the token the user was authenticating with from his browser
+        req.user.tokens = req.user.tokens.filter((token)=> {
+            // we want to filter out the token we used for authenticating user
+            return token.token !== req.token;
+        })
+
+        await req.user.save();
+
+        res.send();
+    } catch (error) {
+        res.status(500).send();
+    }
+})
+
+// log out from all sessions
+router.post('/users/logout/all', auth, async(req,res) => {
+    try {
+        req.user.tokens = [];
+        await req.user.save();
+        res.send();
+
+    } catch(error){
+        res.status(500).send();
+    }
+})
+
 router.get('/users/me', auth, async (req, res) => {
     res.send(req.user);
 })

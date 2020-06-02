@@ -11,6 +11,8 @@ const auth = async (req, res, next) => {
             throw new Error();
         }
 
+        // we add the token to the request so that we have access to it on user router
+        req.token = token;
         req.user = user;
         next();
     } catch(error){
